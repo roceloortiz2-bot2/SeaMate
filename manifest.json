@@ -1,0 +1,17 @@
+{
+  "name": "SeaMate \u2014 Seafarer Tools & Assistant",
+  "short_name": "SeaMate",
+  "description": "Smart, practical tools for life at sea.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f3f7fa",
+  "theme_color": "#082f49",
+  "icons": [
+    {
+      "src": "icons/seamate.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

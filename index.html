@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#082f49">
+<meta name="description" content="SeaMate — practical tools for life at sea.">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/seamate.svg" type="image/svg+xml">
+<title>SeaMate — Seafarer Tools</title>
+<style>
+:root{--navy:#082f49;--blue:#0e7490;--cyan:#cffafe;--ink:#102a43;--muted:#627d98;--bg:#f3f7fa;--card:#fff;--line:#d9e4ec}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{background:linear-gradient(135deg,#082f49,#0e7490);color:white;padding:25px 18px 22px}
+.wrap{max-width:760px;margin:auto}header .brand{font-size:13px;letter-spacing:2px;font-weight:800;color:#a5f3fc}h1{font-size:29px;margin:5px 0 2px}header p{margin:0;color:#d9f4f7}
+nav{display:flex;gap:8px;overflow:auto;padding:12px 14px;background:white;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:2}
+nav button{border:1px solid var(--line);background:white;border-radius:999px;padding:9px 14px;white-space:nowrap;color:var(--ink);font-weight:650}
+nav button.active{background:var(--navy);color:white;border-color:var(--navy)}
+main{max-width:760px;margin:18px auto;padding:0 14px 36px}.intro{padding:4px 3px 12px}.intro h2{margin:0 0 3px;font-size:22px}.intro p{margin:0;color:var(--muted);font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:17px;margin:12px 0;box-shadow:0 4px 16px #082f4908}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:5px;margin:10px 0}
+label{font-size:13px;font-weight:700;color:#486581}input,select{width:100%;padding:12px;border:1px solid #cbd8e2;border-radius:10px;background:white;font:inherit;color:var(--ink)}
+button.primary{width:100%;border:0;border-radius:11px;background:var(--blue);color:white;padding:13px;font-weight:750;font-size:15px;margin-top:8px}
+.result{background:#ecfeff;border:1px solid #a5f3fc;border-radius:12px;padding:14px;margin-top:14px}.result small{color:#155e75;font-weight:700}.amount{font-size:27px;font-weight:850;color:#083344}
+.note{font-size:12px;color:var(--muted);margin-top:10px}.hidden{display:none!important}.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}.tile{border:1px solid var(--line);border-radius:13px;padding:14px;background:#fff}.tile b{display:block;margin-bottom:4px}.tile span{font-size:13px;color:var(--muted)}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
+@media(max-width:520px){.grid{grid-template-columns:1fr 1fr}.card{padding:14px}.amount{font-size:24px}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><div class="brand">SEAMATE</div><h1>Seafarer Tools & Assistant</h1><p>Smart, practical tools for life at sea.</p></div></header>
+<nav aria-label="Tools">
+<button class="active" data-tab="home">Home</button><button data-tab="salary">Salary & HRA</button><button data-tab="overtime">Overtime</button><button data-tab="rest">Rest Hours</button>
+</nav>
+<main>
+<section id="home" class="panel">
+<div class="intro"><h2>Welcome aboard</h2><p>Quick calculators designed for seafarers. Works offline after the first successful load when installed from a supported browser.</p></div>
+<div class="tiles">
+<div class="tile"><b>💰 Salary & HRA</b><span>Estimate gross and net pay.</span></div>
+<div class="tile"><b>⏱ Overtime</b><span>Calculate hourly OT pay.</span></div>
+<div class="tile"><b>🛌 Rest Hours</b><span>Check daily rest totals.</span></div>
+<div class="tile"><b>🌐 Offline-ready</b><span>Core tools cached on device.</span></div>
+</div>
+<div class="card"><b>About SeaMate</b><p class="note">SeaMate is an independent helper app. Calculations are estimates and depend on your employment contract, company policy, flag-state requirements and applicable rules. It is not an official payroll or MLC compliance system.</p></div>
+</section>
+<section id="salary" class="panel hidden">
+<div class="intro"><h2>Salary & HRA Calculator</h2><p>Estimate your monthly gross and net pay.</p></div>
+<div class="card">
+<div class="grid">
+<div class="field"><label for="sCurrency">Currency</label><select id="sCurrency"><option>USD</option><option>PHP</option><option>EUR</option><option>AED</option><option>SAR</option><option>SGD</option><option>MYR</option><option>GBP</option></select></div>
+<div class="field"><label for="sBasic">Basic salary</label><input id="sBasic" type="number" min="0" step="0.01" value="780"></div>
+<div class="field"><label for="sOT">Overtime pay</label><input id="sOT" type="number" min="0" step="0.01" value="0"></div>
+<div class="field"><label for="sHra">HRA multiplier</label><select id="sHra"><option value="0">0 × basic</option><option value="1" selected>1 × basic</option><option value="2">2 × basic</option></select></div>
+<div class="field"><label for="sAllow">Other allowances</label><input id="sAllow" type="number" min="0" step="0.01" value="0"></div>
+<div class="field"><label for="sDeduct">Deductions</label><input id="sDeduct" type="number" min="0" step="0.01" value="0"></div>
+</div>
+<button class="primary" id="salaryCalc">Calculate salary</button>
+<div class="result" aria-live="polite"><small>ESTIMATED NET PAY</small><div class="amount" id="sNet">USD 1,560.00</div><div id="sBreakdown" class="note">Gross: USD 1,560.00 · HRA: USD 780.00</div></div>
+<p class="note">HRA is calculated as basic salary × selected multiplier. No currency conversion is performed.</p>
+</div>
+</section>
+<section id="overtime" class="panel hidden">
+<div class="intro"><h2>Overtime Calculator</h2><p>Estimate overtime using your contract's divisor and rate.</p></div>
+<div class="card">
+<div class="grid">
+<div class="field"><label for="oCurrency">Currency</label><select id="oCurrency"><option>USD</option><option>PHP</option><option>EUR</option><option>AED</option><option>SAR</option><option>SGD</option><option>MYR</option><option>GBP</option></select></div>
+<div class="field"><label for="oBasic">Monthly basic salary</label><input id="oBasic" type="number" min="0" value="780"></div>
+<div class="field"><label for="oDivisor">Monthly divisor (hours)</label><input id="oDivisor" type="number" min="1" value="208"></div>
+<div class="field"><label for="oRate">OT multiplier</label><select id="oRate"><option value="1">1.0 ×</option><option value="1.25">1.25 ×</option><option value="1.5" selected>1.5 ×</option><option value="2">2.0 ×</option></select></div>
+<div class="field"><label for="oHours">OT hours</label><input id="oHours" type="number" min="0" value="10"></div>
+<div class="field"><label for="oOther">Other OT payments</label><input id="oOther" type="number" min="0" value="0"></div>
+</div>
+<button class="primary" id="otCalc">Calculate overtime</button>
+<div class="result" aria-live="polite"><small>ESTIMATED OT PAY</small><div class="amount" id="oTotal">USD 56.25</div><div class="note" id="oBreakdown">Hourly basic rate: USD 3.75</div></div>
+<p class="note">Use the divisor and multiplier stated in your SEA/CBA or company policy.</p>
+</div>
+</section>
+<section id="rest" class="panel hidden">
+<div class="intro"><h2>Daily Rest Hours</h2><p>Enter total rest periods taken within one 24-hour period.</p></div>
+<div class="card">
+<div class="field"><label for="rDate">Date</label><input id="rDate" type="date"></div>
+<div class="grid">
+<div class="field"><label for="r1">Rest period 1 (hours)</label><input id="r1" type="number" min="0" max="24" step=".25" value="6"></div>
+<div class="field"><label for="r2">Rest period 2 (hours)</label><input id="r2" type="number" min="0" max="24" step=".25" value="4"></div>
+<div class="field"><label for="r3">Additional rest (hours)</label><input id="r3" type="number" min="0" max="24" step=".25" value="0"></div>
+</div>
+<button class="primary" id="restCalc">Check daily total</button>
+<div class="result" aria-live="polite"><small>TOTAL REST ENTERED</small><div class="amount" id="rTotal">10.0 hours</div><div id="rStatus" class="note">Daily total meets the 10-hour minimum.</div></div>
+<p class="note">Basic MLC 2006 standard: at least 10 hours of rest in any 24-hour period and 77 hours in any 7-day period. Rest may generally be divided into no more than two periods, one of which must be at least 6 hours; the interval between consecutive rest periods must not exceed 14 hours. This simple daily-total tool does not verify rolling windows, timestamps, interruptions, exceptions or official records. It is not a compliance certificate.</p>
+</div>
+</section>
+</main>
+<footer>SeaMate · Version 0.1 prototype · Built for seafarers</footer>
+<script>
+const tabs=[...document.querySelectorAll('nav button')];
+tabs.forEach(b=>b.addEventListener('click',()=>{tabs.forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('hidden',p.id!==b.dataset.tab));}));
+const val=id=>Math.max(0,Number(document.getElementById(id).value)||0);
+const money=(c,n)=>`${c} ${n.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}`;
+function salary(){let c=sCurrency.value,b=val('sBasic'),ot=val('sOT'),h=b*Number(sHra.value),a=val('sAllow'),d=val('sDeduct'),g=b+ot+h+a; sNet.textContent=money(c,g-d);sBreakdown.textContent=`Gross: ${money(c,g)} · Basic: ${money(c,b)} · HRA: ${money(c,h)} · Deductions: ${money(c,d)}`;}
+function overtime(){let c=oCurrency.value,b=val('oBasic'),dv=Math.max(1,val('oDivisor')),m=Number(oRate.value),hrs=val('oHours'),other=val('oOther'),hourly=b/dv,base=hourly*m*hrs;oTotal.textContent=money(c,base+other);oBreakdown.textContent=`Hourly basic rate: ${money(c,hourly)} · OT calculation: ${money(c,base)} · Other: ${money(c,other)}`;}
+function rest(){let t=val('r1')+val('r2')+val('r3');rTotal.textContent=`${t.toFixed(2)} hours`;rStatus.textContent=t>=10?'Daily total meets the 10-hour minimum.':'Below the 10-hour daily minimum. Add rest or review your schedule.';}
+document.getElementById('salaryCalc').onclick=salary;document.getElementById('otCalc').onclick=overtime;document.getElementById('restCalc').onclick=rest;
+document.getElementById('rDate').value=new Date().toISOString().slice(0,10);salary();overtime();rest();
+if('serviceWorker' in navigator && location.protocol.startsWith('http')) window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+</script>
+</body></html>
